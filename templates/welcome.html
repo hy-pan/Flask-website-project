@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鸟巢识别系统</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href={{ carousel_css }}>
+    <style type="text/css">
+            body{ background-color: #2D2D2D; }
+	    .caroursel{margin:150px auto;}
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">鸟巢识别系统</a>
+        </div>
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="row">
+    <div class="col-sm-2 col-md-4"></div>
+    <div class="col-sm-8 col-md-4">
+        <form id="uploadpic" method=post enctype='multipart/form-data'>
+            <div class="form-group">
+                <label for="font-size:40px;">上传图片</label>
+                <input type="file" id="pic" name="pic">
+            </div>
+<!--
+            <div class="form-group">
+                <label for="picname">图片名称</label>
+                <input type="text" class="form-control" id="picname" name="picname" placeholder="">
+            </div>
+-->
+            <button onclick="uploadatmpic()" type="button" class="btn btn-default">预览图片</button>
+        </form>
+    </div>
+    <div class="col-sm-2 col-md-4"></div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2 col-md-4"></div>
+    <div class="col-sm-8 col-md-4" style="text-align:center">
+        <div>
+            <img id="preview" src={{ default_pic }} alt="原始图片" class="img-rounded" height="233">
+        </div>
+        <button id="upload_button" style="margin:10px auto;" onclick="upload()" type="button" class="btn btn-default">开始识别</button>
+    </div>
+    <div class="col-sm-2 col-md-4"></div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2 col-md-4"></div>
+    <div class="col-sm-8 col-md-4" style="text-align:center">
+        <div>
+            <img id="pro_pic" src={{ default_pic }} alt="深度学习处理后的图片" class="img-rounded" height="233">
+        </div>
+    </div>
+    <div class="col-sm-2 col-md-4"></div>
+</div>
+
+<!--jQuery自动轮播旋转木马-->
+	<article class="jq22-container">
+		<div class = "caroursel poster-main" data-setting = '{
+	        "width":1000,
+	        "height":270,
+	        "posterWidth":640,
+	        "posterHeight":270,
+	        "scale":0.8,
+	        "dealy":"2000",
+	        "algin":"middle"
+	    }'>
+	        <ul class = "poster-list">
+	            <li class = "poster-item"><img src={{ num1 }} height="233"></li>
+	            <li class = "poster-item"><img src={{ num2 }} height="233"></li>
+	            <li class = "poster-item"><img src={{ num3 }} height="233"></li>
+	            <li class = "poster-item"><img src={{ num4 }} height="233"></li>
+	            <li class = "poster-item"><img src={{ num5 }} height="233"></li>
+	        </ul>
+	        <div class = "poster-btn poster-prev-btn"></div>
+	        <div class = "poster-btn poster-next-btn"></div>
+	    </div>
+	</article>
+	
+	<script src="http://www.jq22.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src={{ jquery_carousel_js }}></script>
+    <script>
+        Caroursel.init($('.caroursel'))
+    </script>
+<!--结束-->
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script language="javascript">
+    function uploadatmpic(){
+        var pic = document.getElementById("pic");
+        var file = pic.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e){
+            var preview_pic = document.getElementById("preview");
+            <!-- preview_pic.setAttribute("src", pic); -->
+            preview_pic.src = this.result;
+            preview_pic.setAttribute("height", 233);
+        }
+    }
+
+    function upload(){
+	<!--下面三句，form携带了图片和名字-->
+        var form = new FormData();
+        form.append("pic", $('#pic')[0].files[0]);
+    <!--form.append("picname", $('#picname').val());-->
+
+	<!--通过Ajax发送http请求-->
+        $.ajax({
+            type: "POST",
+            url: "/upload",
+            mimeType: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            data: form,
+            dataType: "json",
+            success: function(result){
+                var pro_pic = document.getElementById("pro_pic")
+                pro_pic.src = result['url']
+            }
+        });
+        <!--获得处理后的图片的地址，赋值给展示用的img标签的src-->
+    }
+</script>
+</body>
+</html>
