@@ -1,4 +1,4 @@
-This a small web service including frontend and backend using the flask framwork. 
+This is a small web service including frontend and backend using the flask framwork. 
 
 I'd like to say that the flask is a very convenient tool for developing samll web service but not suitable for large project.
 
