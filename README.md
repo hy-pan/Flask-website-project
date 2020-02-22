@@ -1,12 +1,14 @@
-This a small web service including frontend and backend using the flask framwork. I'd like to say that the flask is a very convenient tool for developing samll web service but not suitable for large project.
+This a small web service including frontend and backend using the flask framwork. 
+
+I'd like to say that the flask is a very convenient tool for developing samll web service but not suitable for large project.
 
 Front end
 -----
-I uesd HTML, css and js.
+HTML, css and js.
 
 Back end
 -----
-I used python3.
+python3.
 
 How to run
 -----
