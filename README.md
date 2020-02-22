@@ -10,6 +10,10 @@ Back end
 -----
 python3.
 
+What is the service about
+-----
+User can upload a picture onto the server, the server will call deep learning model in the back end for image recognition and then return the processed image to the user.
+
 How to run
 -----
 1. Install Flask framwork
